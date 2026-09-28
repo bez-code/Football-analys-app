@@ -1,0 +1,12 @@
+node_modules/
+.npm/
+dist/
+out/
+release/
+*.log
+.DS_Store
+.vite/
+.env
+.env.*
+apps/desktop/resources/app/
+*.tsbuildinfo

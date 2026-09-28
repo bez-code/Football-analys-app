@@ -1,0 +1,79 @@
+# electron-builder configuration.
+#
+# One constraint shapes this file: the ffmpeg/ffprobe executables must live on
+# the real filesystem, not inside the asar archive, because Electron cannot exec
+# a binary from inside a packed file. There are no native modules any more -
+# SQLite comes from node:sqlite inside Electron's own Node, so nothing here has
+# to be compiled per platform or architecture.
+
+appId: com.tactix.app
+productName: Tactix
+copyright: Copyright © 2026 Tactix
+
+directories:
+  output: release
+  buildResources: build
+
+# Only the built output plus the manifests. Sources and configs stay out of the
+# package; there is no value in shipping them to a local install.
+files:
+  - out/**/*
+  - package.json
+  - '!**/*.map'
+
+asar: true
+# The ffmpeg/ffprobe executables have to live on the real filesystem.
+asarUnpack:
+  - '**/node_modules/ffmpeg-static/**'
+  - '**/node_modules/ffprobe-static/**'
+
+# The renderer is fully local: no remote code, no dev server in a release.
+protocols:
+  - name: Tactix
+    schemes:
+      - tactix
+
+mac:
+  category: public.app-category.sports
+  target:
+    - target: dmg
+      arch:
+        - arm64
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  entitlements: build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.plist
+  darkModeSupport: true
+  # Unsigned builds are fine for personal use; remove the identity lines if you
+  # ever want to distribute this.
+  identity: null
+
+dmg:
+  artifactName: ${productName}-${version}-${arch}.${ext}
+  contents:
+    - x: 130
+      y: 220
+    - x: 410
+      y: 220
+      type: link
+      path: /Applications
+
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  artifactName: ${productName}-${version}-setup.${ext}
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Tactix
+
+# A local tool is not sandboxed the way a store app is; it needs to read the
+# user's video files from anywhere on disk.
+npmRebuild: true
+buildDependenciesFromSource: false

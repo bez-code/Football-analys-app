@@ -1,0 +1,30 @@
+{
+  "name": "tactix",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Local-first football video analysis, tactical metrics and skill assessment tool",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=20.11.0"
+  },
+  "scripts": {
+    "dev": "npm run dev --workspace=tactix",
+    "build": "npm run build --workspace=tactix",
+    "typecheck": "npm run typecheck --workspace=tactix",
+    "lint": "npm run typecheck",
+    "start": "npm run start --workspace=tactix",
+    "dist:win": "npm run dist:win --workspace=tactix",
+    "dist:mac": "npm run dist:mac --workspace=tactix",
+    "dist:all": "npm run dist --workspace=tactix"
+  },
+  "devDependencies": {
+    "electron": "^44.4.5",
+    "electron-builder": "^26.15.3",
+    "typescript": "~5.9.0",
+    "vite": "^7.0.0"
+  }
+}

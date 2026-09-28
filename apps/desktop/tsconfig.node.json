@@ -1,0 +1,23 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "include": [
+    "electron.vite.config.ts",
+    "src/main/**/*",
+    "src/preload/**/*",
+    "src/common/**/*",
+    "src/types/**/*",
+    "scripts/**/*",
+    "../../packages/contracts/src/**/*"
+  ],
+  "compilerOptions": {
+    "composite": true,
+    "noEmit": true,
+    // The main process ships as real ESM ("type": "module"), so NodeNext is
+    // the honest module mode: it is the only one that resolves the explicit
+    // `../foo.js` specifiers used below back to their TypeScript sources.
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "types": ["node", "electron-vite/node"],
+    "lib": ["ES2023"]
+  }
+}
